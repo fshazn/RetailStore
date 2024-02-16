@@ -16,14 +16,14 @@ const ProductManagement = () => {
   const [category, setCategory] = useState([]);
   const [stocks, setStocks] = useState([]);
   const [editMode, setEditMode] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState([]);
   const [productName, setProductName] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [productType, setProductType] = useState("");
   const [productStock, setProductStock] = useState("");
   const [newCategory, setNewCategory] = useState("");
   const [productDescription, setProductDescription] = useState("");
-  const [productPrice, setProductPrice] = useState(null);
+  const [productPrice, setProductPrice] = useState("");
   const selectedCategory = category.find(
     (cat) => cat.categoryName === productType
   );
@@ -49,7 +49,6 @@ const ProductManagement = () => {
     setCategory(result.data);
   };
 
- 
   const handleEditRow = (product) => {
     setEditMode(true);
     setProductName(product.productName);
@@ -65,7 +64,7 @@ const ProductManagement = () => {
         product: {
           productName: productName,
           productDescription: productDescription,
-          productPrice: parseFloat(productPrice), 
+          productPrice: parseFloat(productPrice),
           category: {
             categoryID: selectedCategory ? selectedCategory.categoryID : null,
           },
@@ -80,6 +79,8 @@ const ProductManagement = () => {
       );
       setProducts([...products, response.data]);
 
+      fetchProducts();
+
       clearFields();
     } catch (error) {
       console.error("Error adding product:", error);
@@ -87,13 +88,22 @@ const ProductManagement = () => {
   };
 
   const handleUpdateProduct = () => {
+
+    if (selectedProduct === null) {
+      console.error("No product selected for update.");
+      return;
+    }
+
     const updatedProduct = {
-      ...selectedProduct,
-      productName,
-      category: { categoryName: productType },
-      productDescription,
-      productPrice,
+      productName: productName,
+      productDescription: productDescription,
+      productPrice: parseFloat(productPrice),
+      category: {
+        categoryID: selectedCategory ? selectedCategory.categoryID : null,
+      },
     };
+
+    console.log("Updated Product Data:", updatedProduct);
 
     axios
       .put(
@@ -102,14 +112,14 @@ const ProductManagement = () => {
       )
       .then((response) => {
         console.log("Product updated successfully:", response.data);
-       
+
         const updatedProducts = products.map((product) =>
           product.productID === selectedProduct.productID
-            ? updatedProduct
+            ? response.data
             : product
         );
         setProducts(updatedProducts);
-        // Clear input fields
+        
         clearFields();
       })
       .catch((error) => {
@@ -123,9 +133,9 @@ const ProductManagement = () => {
         categoryName: newCategory,
       });
       console.log("New category added:", response.data);
-      
+
       setCategory([...category, response.data]);
-     
+
       setNewCategory("");
     } catch (error) {
       console.error("Error adding category:", error);
@@ -137,6 +147,7 @@ const ProductManagement = () => {
     setProductType("");
     setProductDescription("");
     setProductPrice("");
+    setProductStock("");
   };
 
   return (
@@ -201,7 +212,7 @@ const ProductManagement = () => {
             <h1 className="text-purple-800 font-bold text-left mb-1">
               Add/Update New Product
             </h1>
-            <div className="inline-block bg-white p-4 rounded-lg shadow-md">
+            <div className="inline-block bg-white p-4 rounded-lg shadow-md mb-5">
               <div className="flex items-center mb-2">
                 <label
                   htmlFor="name"
@@ -302,7 +313,7 @@ const ProductManagement = () => {
             </div>
           </div>
 
-          <div className="mt-4 ml-14 justify-center">
+          <div className="mt-4 ml-10 justify-center">
             <h1 className="text-purple-800 font-bold text-left mb-1">
               Add New Category
             </h1>

@@ -61,14 +61,14 @@ const StockManagement = () => {
     try {
       await axios.put(
         "http://localhost:8081/stocks/${selectedProduct.product.productID}",
-        quantity, {
+        quantity,
+        {
           headers: {
-            'Content-Type': 'application/json'
-          }
+            "Content-Type": "application/json",
+          },
         }
       );
 
-   
       const updatedStocks = stocks.map((stock) =>
         stock.stockID === selectedProduct.stockID
           ? { ...stock, type: stockType, quantity: quantity }
@@ -76,7 +76,6 @@ const StockManagement = () => {
       );
       setStocks(updatedStocks);
 
-     
       clearFields();
       setEditMode(false);
     } catch (error) {
@@ -93,7 +92,7 @@ const StockManagement = () => {
       setStocks(updatedStocks);
 
       axios
-        .delete("http://localhost:8081/stocks/${stock.stockID}")
+        .delete(`http://localhost:8081/stocks/${stock.stockID}`)
         .then((response) => {
           console.log("Row deleted successfully:", response.data);
         })
