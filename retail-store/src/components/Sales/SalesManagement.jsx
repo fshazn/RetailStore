@@ -160,7 +160,7 @@ const SalesManagement = () => {
                   id="name"
                   selected={selectedDate}
                   onChange={(date) => setSelectedDate(date)}
-                  className="block w-72 ml-12 px-4 py-1 bg-gray-100 text-gray-900 border border-gray-400 rounded-md focus:outline-none focus:bg-white focus:border-purple-700"
+                  className="block w-72 ml-20 px-4 py-1 bg-gray-100 text-gray-900 border border-gray-400 rounded-md focus:outline-none focus:bg-white focus:border-purple-700"
                 />
               </div>
 
@@ -175,7 +175,7 @@ const SalesManagement = () => {
                   id="type"
                   value={productType}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="block w-72 ml-9 px-4 py-1 bg-gray-100 text-gray-900 border border-gray-400 rounded-md focus:outline-none focus:bg-white focus:border-purple-700"
+                  className="block w-72 ml-8 px-4 py-1 bg-gray-100 text-gray-900 border border-gray-400 rounded-md focus:outline-none focus:bg-white focus:border-purple-700"
                 >
                   <option value="">Select</option>
                   {category.map((category) => (
@@ -197,7 +197,7 @@ const SalesManagement = () => {
                 </label>
                 <select
                   id="type"
-                  className="block w-72 ml-16 px-4 py-1 bg-gray-100 text-gray-900 border border-gray-400 rounded-md focus:outline-none focus:bg-white focus:border-purple-700"
+                  className="block w-72 ml-24 px-4 py-1 bg-gray-100 text-gray-900 border border-gray-400 rounded-md focus:outline-none focus:bg-white focus:border-purple-700"
                 >
                   <option value="type1">Select</option>
                   <option value="type2">Type 1</option>
